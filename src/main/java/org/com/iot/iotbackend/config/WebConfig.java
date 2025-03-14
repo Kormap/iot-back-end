@@ -17,7 +17,12 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         logger.info("ENV URL ::: " + frontCorsUrl);
         registry.addMapping("/**")
-                .allowedOrigins(frontCorsUrl, "https://iot-front-end.vercel.app")   //Vue 배포서버 CORS 설정
+                //Vue 배포서버, Swagger CORS 설정
+                .allowedOrigins(
+                        frontCorsUrl,
+                        "https://iot-front-end.vercel.app",
+                        "https://moderate-tomasine-iot-toy-project-19bde098.koyeb.app/api/swagger-ui/index.html"
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true)
