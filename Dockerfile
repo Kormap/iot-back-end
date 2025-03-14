@@ -19,7 +19,7 @@ WORKDIR /workspace
 # Build stage copy
 COPY --from=builder /builder/build/libs/*.jar iot-back-end.jar
 
-# SpringBoot/DataBase ENV (local/dev/docker)
+# SpringBoot/DataBase ENV (local/docker)
 ENV SPRING_PROFILES_ACTIVE=docker
 ENV TZ="Asia/Seoul"
 EXPOSE 8080

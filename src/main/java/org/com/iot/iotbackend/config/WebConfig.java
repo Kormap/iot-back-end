@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         logger.info("ENV URL ::: " + frontCorsUrl);
         registry.addMapping("/**")
-                .allowedOrigins(frontCorsUrl)
+                .allowedOrigins(frontCorsUrl, "https://iot-front-end.vercel.app")   //Vue 배포서버 CORS 설정
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true)
