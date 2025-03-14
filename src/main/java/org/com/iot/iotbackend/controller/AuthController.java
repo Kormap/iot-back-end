@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    Logger logger = Logger.getLogger(AuthController.class.getName());
 
     @Operation(summary = "테스트 단건 조회", description = "테스트를 단건 조회합니다.")
     @ApiResponses(value = {
@@ -24,6 +27,7 @@ public class AuthController {
             @Schema(example = "abc1234")
             @PathVariable(required = true) String id
     ) {
+        logger.info("API :: testByGet called");
         return ResponseEntity.ok("test id parameter : ".concat(id));
     }
 
