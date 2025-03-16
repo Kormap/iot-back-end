@@ -1,18 +1,18 @@
 package org.com.iot.iotbackend.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.com.iot.iotbackend.dto.SensorDataDTO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.logging.Logger;
-
+@Slf4j
 @Controller
 @RequestMapping("/api/sensor")
 public class SensorDataController {
-    Logger logger = Logger.getLogger(SensorDataController.class.getName());
 
-    @GetMapping("/data")
-    public void getSensorData(String data) {
-        logger.info(data);
+    @PostMapping("/data")
+    public void getSensorData(SensorDataDTO sensorDataDTO) {
+        log.info("Temperature={} Humidity={}", sensorDataDTO.getTemperature(), sensorDataDTO.getHumidity());
     }
 }
