@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SensorDataDTO {
-    private String temperature;
-    private String humidity;
+    private float temperature;
+    private float humidity;
 }
