@@ -8,10 +8,12 @@ import org.com.iot.iotbackend.dto.SensorDataDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping("/api/sensor")
 public class SensorDataController {
 
@@ -21,7 +23,7 @@ public class SensorDataController {
             @ApiResponse(responseCode = "400", description = "Bad Request: Invalid input data.")
     })
     @PostMapping("/data")
-    public ResponseEntity<String> getSensorData(SensorDataDTO sensorDataDTO) {
+    public ResponseEntity<String> getSensorData(@RequestBody SensorDataDTO sensorDataDTO) {
         log.info("Temperature={} Humidity={}", sensorDataDTO.getTemperature(), sensorDataDTO.getHumidity());
         return ResponseEntity.ok("SUCCESS");
     }
