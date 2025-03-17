@@ -30,7 +30,7 @@ public class SensorDataController {
             @ApiResponse(responseCode = "400", description = "Bad Request: Invalid input data.")
     })
     @PostMapping("/data")
-    public ResponseEntity<?> getSensorData(@RequestBody SensorDataDTO sensorData) {
+    public ResponseEntity<String> getSensorData(@RequestBody SensorDataDTO sensorData) {
         UserDTO user = sensorData.getUser();
         DHTSensor dhtSensor = sensorData.getDhtSensor();
         SoilMoistureSensor soilMoistureSensor = sensorData.getSoilMoistureSensor();
