@@ -1,9 +1,9 @@
 package org.com.iot.iotbackend.dto.sensor;
 
-import lombok.Getter;
+import lombok.Data;
 import org.com.iot.iotbackend.dto.user.UserDTO;
 
-@Getter
+@Data
 public class SensorDataDTO {
     private UserDTO user;
     private DHTSensor dhtSensor;

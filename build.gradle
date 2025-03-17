@@ -1,3 +1,9 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.10-SNAPSHOT'
@@ -32,6 +38,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'mysql:mysql-connector-java:8.0.30'
 
+    implementation "com.querydsl:querydsl-jpa:$queryDslVersion:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:$queryDslVersion:jakarta"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
     // Swagger Version 확인필요
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0'
@@ -43,6 +53,16 @@ dependencies {
 
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.mysql:mysql-connector-j'
+}
+
+// Querydsl 설정
+def querydslSrcDir = 'src/main/generated'
+clean {
+    delete file(querydslSrcDir)
+}
+tasks.withType(JavaCompile) {
+    options.generatedSourceOutputDirectory = file(querydslSrcDir)
+    options.annotationProcessorPath = configurations.annotationProcessor
 }
 
 tasks.named('test') {
