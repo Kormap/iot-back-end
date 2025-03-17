@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.com.iot.iotbackend.dto.DHTSensor;
 import org.com.iot.iotbackend.dto.SensorDataDTO;
+import org.com.iot.iotbackend.dto.SoilMoistureSensor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,12 @@ public class SensorDataController {
             @ApiResponse(responseCode = "400", description = "Bad Request: Invalid input data.")
     })
     @PostMapping("/data")
-    public ResponseEntity<String> getSensorData(@RequestBody SensorDataDTO sensorDataDTO) {
-        log.info("Temperature={} Humidity={}", sensorDataDTO.getTemperature(), sensorDataDTO.getHumidity());
+    public ResponseEntity<String> getSensorData(@RequestBody SensorDataDTO sensorData) {
+        DHTSensor dhtSensor = sensorData.getDhtSensor();
+        SoilMoistureSensor soilMoistureSensor = sensorData.getSoilMoistureSensor();
+
+        log.info("Temperature={} Humidity={}", dhtSensor.getTemperature(), dhtSensor.getHumidity());
+        log.info("SoilMoisture={}", soilMoistureSensor.getSoilMoisture());
         return ResponseEntity.ok("SUCCESS");
     }
 }
