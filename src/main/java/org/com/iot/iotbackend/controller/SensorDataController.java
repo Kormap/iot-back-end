@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.com.iot.iotbackend.dto.DHTSensor;
-import org.com.iot.iotbackend.dto.SensorDataDTO;
-import org.com.iot.iotbackend.dto.SoilMoistureSensor;
+import org.com.iot.iotbackend.dto.sensor.DHTSensor;
+import org.com.iot.iotbackend.dto.sensor.SensorDataDTO;
+import org.com.iot.iotbackend.dto.sensor.SoilMoistureSensor;
+import org.com.iot.iotbackend.dto.user.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,11 +26,16 @@ public class SensorDataController {
     })
     @PostMapping("/data")
     public ResponseEntity<String> getSensorData(@RequestBody SensorDataDTO sensorData) {
+        UserDTO user = sensorData.getUser();
         DHTSensor dhtSensor = sensorData.getDhtSensor();
         SoilMoistureSensor soilMoistureSensor = sensorData.getSoilMoistureSensor();
 
+        // TODO : 로그확인용 출력, 추후 제거
+        log.info("User Email={}", user.getEmail());
         log.info("Temperature={} Humidity={}", dhtSensor.getTemperature(), dhtSensor.getHumidity());
         log.info("SoilMoisture={}", soilMoistureSensor.getSoilMoisture());
+
+
         return ResponseEntity.ok("SUCCESS");
     }
 }

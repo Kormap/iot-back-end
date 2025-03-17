@@ -1,4 +1,4 @@
-package org.com.iot.iotbackend.dto;
+package org.com.iot.iotbackend.dto.sensor;
 
 import lombok.Getter;
 
