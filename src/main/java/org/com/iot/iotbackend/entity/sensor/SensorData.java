@@ -1,10 +1,11 @@
-package org.com.iot.iotbackend.entity;
+package org.com.iot.iotbackend.entity.sensor;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.com.iot.iotbackend.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;

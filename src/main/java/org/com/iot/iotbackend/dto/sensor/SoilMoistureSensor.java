@@ -3,7 +3,7 @@ package org.com.iot.iotbackend.dto.sensor;
 import lombok.Data;
 import org.com.iot.iotbackend.common.enumtype.SensorType;
 import org.com.iot.iotbackend.common.enumtype.UnitType;
-import org.com.iot.iotbackend.entity.SensorData;
+import org.com.iot.iotbackend.entity.sensor.SensorData;
 import org.com.iot.iotbackend.entity.User;
 
 import java.math.BigDecimal;
@@ -18,7 +18,6 @@ public class SoilMoistureSensor {
     private String sensorId;
     private BigDecimal soilMoisture;
     private LocalDateTime measured_at;
-    private Long userId;
 
     public SensorData toEntity(User user) {
         SensorData sensorData = SensorData.builder()
