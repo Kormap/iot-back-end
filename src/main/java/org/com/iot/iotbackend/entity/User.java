@@ -2,6 +2,8 @@ package org.com.iot.iotbackend.entity;
 
 import jakarta.persistence.*;
 import org.com.iot.iotbackend.entity.sensor.Sensor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,12 +29,24 @@ public class User {
     private String phoneNumber;
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Sensor> sensors;
 
+    public User(String email, String name, String password, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEncodedPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 }

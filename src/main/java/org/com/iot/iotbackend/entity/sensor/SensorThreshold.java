@@ -1,6 +1,8 @@
 package org.com.iot.iotbackend.entity.sensor;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -25,9 +27,11 @@ public class SensorThreshold {
     private BigDecimal maxThreshold; // 최대 임계값
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt; // 생성일시
 
     @Column(name = "updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt; // 수정일시
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "threshold", cascade = CascadeType.ALL)
