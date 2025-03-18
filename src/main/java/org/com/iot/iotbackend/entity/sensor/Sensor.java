@@ -2,6 +2,7 @@ package org.com.iot.iotbackend.entity.sensor;
 
 import jakarta.persistence.*;
 import org.com.iot.iotbackend.entity.User;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,7 @@ public class Sensor {
     private String sensorType; // 센서 타입
 
     @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt; // 생성일시
 
     @ManyToOne
