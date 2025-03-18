@@ -1,13 +1,13 @@
 package org.com.iot.iotbackend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import org.com.iot.iotbackend.entity.sensor.Sensor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
 public class User {
 
     @Id
@@ -31,4 +31,8 @@ public class User {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Sensor> sensors;
+
 }
