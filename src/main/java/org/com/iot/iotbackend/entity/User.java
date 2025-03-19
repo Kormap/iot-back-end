@@ -39,6 +39,10 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Sensor> sensors;
 
+    // 기본 생성자
+    protected User() {
+    }
+
     public User(String email, String name, String password, String phoneNumber) {
         this.email = email;
         this.name = name;
