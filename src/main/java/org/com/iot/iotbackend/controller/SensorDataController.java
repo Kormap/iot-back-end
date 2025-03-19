@@ -33,11 +33,9 @@ public class SensorDataController {
         UserDTO user = sensorData.getUser();
         DHTSensor dhtSensor = sensorData.getDhtSensor();
         SoilMoistureSensor soilMoistureSensor = sensorData.getSoilMoistureSensor();
-
         // TODO : 로그확인용 출력, 추후 제거
         log.info("User Email={}", user.getEmail());
-        log.info("Temperature={} Humidity={}", dhtSensor.getTemperature(), dhtSensor.getHumidity());
-        log.info("SoilMoisture={}", soilMoistureSensor.getSoilMoisture());
+        log.info("Temperature={}, Humidity={}, SoilMoisture={}", dhtSensor.getTemperature(), dhtSensor.getHumidity(), soilMoistureSensor.getSoilMoisture());
 
         sensorDataService.saveSensorData(sensorData);
 
