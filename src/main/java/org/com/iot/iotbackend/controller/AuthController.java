@@ -135,7 +135,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("None")
                 .maxAge(0)  // 쿠키 즉시 만료
                 .build();
 
@@ -144,7 +144,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(false)
                 .path("/")
-                .sameSite("Strict")
+                .sameSite("None")
                 .maxAge(0)
                 .build();
 
@@ -168,7 +168,7 @@ public class AuthController {
         accessTokenCookie.setSecure(isProd);  // Secure 설정
         accessTokenCookie.setPath("/");    // 모든 경로에서 유효
         accessTokenCookie.setMaxAge(15 * 60); // 유효 기간: 15분 (Access 토큰의 유효 기간과 동일)
-        accessTokenCookie.setAttribute("SameSite", "Strict");
+        accessTokenCookie.setAttribute("SameSite", "None");
         httpResponse.addCookie(accessTokenCookie);
 
         // Refresh 토큰을 HTTP-Only 쿠키에 저장
@@ -177,7 +177,7 @@ public class AuthController {
         refreshTokenCookie.setSecure(isProd);  // Secure 설정
         refreshTokenCookie.setPath("/");    // 모든 경로에서 유효
         refreshTokenCookie.setMaxAge(24 * 60 * 60); // 유효 기간: 1일 (Refresh 토큰의 유효 기간과 동일)
-        refreshTokenCookie.setAttribute("SameSite", "Strict");
+        refreshTokenCookie.setAttribute("SameSite", "None");
         httpResponse.addCookie(refreshTokenCookie);
     }
 }
