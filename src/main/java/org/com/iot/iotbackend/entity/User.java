@@ -1,6 +1,7 @@
 package org.com.iot.iotbackend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.com.iot.iotbackend.entity.sensor.Sensor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
 @Table(name = "users")
 public class User {
 
@@ -50,7 +52,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public void setEncodedPassword(String encodedPassword) {
-        this.password = encodedPassword;
+    public void setEncodedPassword(String encodedInputPassword) {
+        this.password = encodedInputPassword;
+    }
+
+    public String getPassword() {
+        return this.password;
     }
 }

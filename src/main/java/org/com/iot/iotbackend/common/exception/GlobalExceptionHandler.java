@@ -2,7 +2,7 @@ package org.com.iot.iotbackend.common.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.com.iot.iotbackend.dto.common.MetaData;
-import org.com.iot.iotbackend.dto.common.SingleDataResponse;
+import org.com.iot.iotbackend.dto.common.CommonResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,17 +20,17 @@ public class GlobalExceptionHandler {
 
     // RuntimeException 처리
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<SingleDataResponse> handleRuntimeException(HttpServletRequest request, RuntimeException ex) {
+    public ResponseEntity<CommonResponse> handleRuntimeException(HttpServletRequest request, RuntimeException ex) {
         MetaData metaData = MetaData.ofError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         log.error(ex.getMessage(), ex);
 
-        SingleDataResponse response = new SingleDataResponse(metaData);
+        CommonResponse response = new CommonResponse(metaData);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     // Valid 유효성 Exception 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<SingleDataResponse> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<CommonResponse> handleValidationException(MethodArgumentNotValidException ex) {
         // DTO에서 설정한 message만 가져오기
         List<String> errorMessages = ex.getBindingResult()
                 .getFieldErrors()
@@ -43,16 +43,16 @@ public class GlobalExceptionHandler {
 
         // 응답 생성
         MetaData metaData = MetaData.ofError(HttpStatus.BAD_REQUEST.value(), errorMessage);
-        SingleDataResponse<?> response = new SingleDataResponse<>(metaData);
+        CommonResponse<?> response = new CommonResponse<>(metaData);
 
         return ResponseEntity.badRequest().body(response);
     }
 
     // 그 외 Exception 처리
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<SingleDataResponse> handleGenericException(HttpServletRequest request, Exception ex) {
+    public ResponseEntity<CommonResponse> handleGenericException(HttpServletRequest request, Exception ex) {
         MetaData metaData = MetaData.ofError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error: "+ ex.getMessage());
-        SingleDataResponse response = new SingleDataResponse(metaData);
+        CommonResponse response = new CommonResponse(metaData);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }
