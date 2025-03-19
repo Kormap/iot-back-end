@@ -33,6 +33,8 @@ public class SensorDataService {
         // 토양수분(SOIL_MOISTURE) 센서 저장
         SoilMoistureSensor soilMoistureSensor = sensorData.getSoilMoistureSensor();
         sensorDataRepository.save(soilMoistureSensor.toEntity(userInfo));
+
+        // TODO : 저장 후 설정된 임계값에 포함되지 않을 경우 경고
     }
 
 }
