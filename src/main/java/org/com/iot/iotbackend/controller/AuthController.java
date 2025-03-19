@@ -19,6 +19,7 @@ import org.com.iot.iotbackend.dto.common.MetaData;
 import org.com.iot.iotbackend.dto.common.CommonResponse;
 import org.com.iot.iotbackend.service.AuthService;
 import org.com.iot.iotbackend.service.MailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,9 @@ import java.util.logging.Logger;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+    @Value("${app.env}")
+    private String APP_ENV;
+
     private final MailService mailService;
     private final AuthService authService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -158,7 +162,7 @@ public class AuthController {
 
 
     public void setHttpOnlyCookie(LoginResponse data, HttpServletResponse httpResponse) {
-        boolean isProd = "docker".equals(System.getenv("APP_ENV"));   // 환경에 따라 Secure 설정, https : true, http : false
+        boolean isProd = APP_ENV.equals("docker");   // 환경에 따라 Secure 설정, https : true, http : false
         Cookie accessTokenCookie = new Cookie("Authorization", data.getJwtTokens().getAccessToken());
         accessTokenCookie.setHttpOnly(true); // HTTP-Only 설정: JavaScript에서 접근 불가
         accessTokenCookie.setSecure(isProd);  // Secure 설정
