@@ -1,13 +1,13 @@
-package org.com.iot.iotbackend.dto.auth;
+package org.com.iot.iotbackend.dto.auth.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
+import lombok.Data;
 import org.com.iot.iotbackend.entity.User;
 
-@Getter
+@Data
 public class SignupRequest {
     @Email(message = "유효한 이메일 형식이 아닙니다.")
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]{1,20}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
