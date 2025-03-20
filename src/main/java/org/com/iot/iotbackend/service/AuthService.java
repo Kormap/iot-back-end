@@ -1,9 +1,5 @@
 package org.com.iot.iotbackend.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.com.iot.iotbackend.common.JwtTokenProvider;
@@ -14,13 +10,9 @@ import org.com.iot.iotbackend.dto.auth.response.LoginResponse;
 import org.com.iot.iotbackend.entity.User;
 import org.com.iot.iotbackend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor

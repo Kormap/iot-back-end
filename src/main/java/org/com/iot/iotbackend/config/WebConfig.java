@@ -9,15 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     Logger logger = LoggerFactory.getLogger(WebConfig.class);
-    private final CorsConfig corsConfig;
+    private final FrontCorsUrlConfig frontCorsUrlConfig;
 
-    public WebConfig(CorsConfig corsConfig) {
-        this.corsConfig = corsConfig;
+    public WebConfig(FrontCorsUrlConfig frontCorsUrlConfig) {
+        this.frontCorsUrlConfig = frontCorsUrlConfig;
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        logger.info("ENV URL ::: " + corsConfig.getUrl());
+        logger.info("ENV URL ::: " + frontCorsUrlConfig.getUrl());
         registry.addMapping("/**")
                 //Vue 배포서버, Swagger CORS 설정
                 .allowedOrigins(
@@ -25,8 +25,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://iot-front-end.vercel.app",
                         "https://moderate-tomasine-iot-toy-project-19bde098.koyeb.app/api/swagger-ui/index.html"
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                .allowedHeaders("Authorization", "*")
                 .allowCredentials(true)
                 .maxAge(3600);
     }

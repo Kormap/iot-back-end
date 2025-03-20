@@ -1,7 +1,7 @@
 package org.com.iot.iotbackend.dto.sensor;
 
 import lombok.Data;
-import org.com.iot.iotbackend.dto.user.UserDTO;
+import org.com.iot.iotbackend.dto.user.request.UserDTO;
 
 @Data
 public class SensorDataDTO {

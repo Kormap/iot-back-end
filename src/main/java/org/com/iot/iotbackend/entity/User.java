@@ -38,7 +38,7 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Sensor> sensors;
 
     // 기본 생성자
@@ -58,5 +58,9 @@ public class User {
 
     public String getPassword() {
         return this.password;
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

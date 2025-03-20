@@ -6,7 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.com.iot.iotbackend.config.CorsConfig;
+import org.com.iot.iotbackend.config.FrontCorsUrlConfig;
 import org.com.iot.iotbackend.dto.common.CommonResponse;
 import org.com.iot.iotbackend.dto.common.MetaData;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -16,19 +16,31 @@ import java.util.List;
 
 // TODO(참고용) : 스프링시큐리티 미적용으로 인한 JwtAuthentication 필터 작동을 위해 FilterConfig 설정추가
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final CorsConfig corsConfig;
+    private final FrontCorsUrlConfig frontCorsUrlConfig;
 
     private final JwtTokenProvider jwtTokenProvider;
     private List<String> excludedPaths;
 
-    public JwtAuthenticationFilter(CorsConfig corsConfig, JwtTokenProvider jwtTokenProvider) {
-        this.corsConfig = corsConfig;
+    public JwtAuthenticationFilter(FrontCorsUrlConfig frontCorsUrlConfig, JwtTokenProvider jwtTokenProvider) {
+        this.frontCorsUrlConfig = frontCorsUrlConfig;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+
+        // OPTIONS HTTP 메소드 필터 제외
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            chain.doFilter(request, response); // 필터 건너뛰기
+            return;
+        }
+        // CORS 관련 헤더 추가
+        response.setHeader("Access-Control-Allow-Origin", frontCorsUrlConfig.getUrl());    // 배포 시 URL 설정 잘되는지 확인 필요
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
 
         // "/api/auth" API 는 제외하도록 설정
         if (excludedPaths != null && isExcludedPath(request.getRequestURI())) {
@@ -50,20 +62,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // TODO : JWT 가 없거나 유효하지 않은 경우 로그인 후 사용 경고 구현
         if (token == null || !jwtTokenProvider.validateToken(token)) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
-
-            // CORS 관련 헤더 추가
-            response.setHeader("Access-Control-Allow-Origin", corsConfig.getUrl());    // 배포 시 URL 설정 잘되는지 확인 필요
-            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
-
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 UNAUTHORIZED
 
             // 응답 타입 설정 (JSON 형식)
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
 
-            MetaData metaData = MetaData.ofError(HttpServletResponse.SC_FORBIDDEN, "로그인 후 이용가능합니다.");
+            MetaData metaData = MetaData.ofError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 후 이용가능합니다.");
             CommonResponse commonResponse = new CommonResponse(metaData);
 
             // 객체를 JSON으로 직렬화
@@ -74,11 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            request.setAttribute("email", jwtTokenProvider.getAuthentication(token).getName());
-        }
-
+        request.setAttribute("email", jwtTokenProvider.getAuthentication(token).getName());
         chain.doFilter(request, response); // 필터 체인 계속 진행
     }
 
