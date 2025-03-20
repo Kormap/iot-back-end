@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-// TODO(참고용) : 스프링시큐리티 미적용으로 인한 JwtAuthentication 필터 작동을 위해 FilterConfig 설정추가
+// TODO(참고용) : 스프링시큐리티 미적용으로 인한 JwtAuthentication 필터 작동을 위해 FilterConfig 설정
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final FrontCorsUrlConfig frontCorsUrlConfig;
 
