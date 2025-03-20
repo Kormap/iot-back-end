@@ -160,15 +160,18 @@ public class AuthController {
         return ResponseEntity.ok("success");
     }
 
-
     public void setHttpOnlyCookie(LoginResponse data, HttpServletResponse httpResponse) {
-        boolean isProd = APP_ENV.equals("docker");   // 환경에 따라 Secure 설정, https : true, http : false
+        // 환경에 따라 Secure 설정, 배포(https) : true, 로컬(http) : false
+        boolean isProd = APP_ENV.equals("docker");
+        // 환경에 따라 SameSite 설정 배포(https) : None, 로컬(http) : SameSite None 설정 시, Secure(true) 환경에서만 가능
+        String sameSiteConfig = APP_ENV.equals("docker") ? "None" : "Strict";
+
         Cookie accessTokenCookie = new Cookie("Authorization", data.getJwtTokens().getAccessToken());
         accessTokenCookie.setHttpOnly(true); // HTTP-Only 설정: JavaScript에서 접근 불가
         accessTokenCookie.setSecure(isProd);  // Secure 설정
         accessTokenCookie.setPath("/");    // 모든 경로에서 유효
         accessTokenCookie.setMaxAge(15 * 60); // 유효 기간: 15분 (Access 토큰의 유효 기간과 동일)
-        accessTokenCookie.setAttribute("SameSite", "None");
+        accessTokenCookie.setAttribute("SameSite", sameSiteConfig);
         httpResponse.addCookie(accessTokenCookie);
 
         // Refresh 토큰을 HTTP-Only 쿠키에 저장
@@ -177,7 +180,7 @@ public class AuthController {
         refreshTokenCookie.setSecure(isProd);  // Secure 설정
         refreshTokenCookie.setPath("/");    // 모든 경로에서 유효
         refreshTokenCookie.setMaxAge(24 * 60 * 60); // 유효 기간: 1일 (Refresh 토큰의 유효 기간과 동일)
-        refreshTokenCookie.setAttribute("SameSite", "None");
+        refreshTokenCookie.setAttribute("SameSite", sameSiteConfig);
         httpResponse.addCookie(refreshTokenCookie);
     }
 }
