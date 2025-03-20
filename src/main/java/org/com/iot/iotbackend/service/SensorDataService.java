@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.com.iot.iotbackend.dto.sensor.DHTSensor;
 import org.com.iot.iotbackend.dto.sensor.SensorDataDTO;
 import org.com.iot.iotbackend.dto.sensor.SoilMoistureSensor;
-import org.com.iot.iotbackend.dto.user.UserDTO;
+import org.com.iot.iotbackend.dto.user.request.UserDTO;
 import org.com.iot.iotbackend.entity.User;
 import org.com.iot.iotbackend.repository.SensorDataRepository;
 import org.com.iot.iotbackend.repository.UserRepository;

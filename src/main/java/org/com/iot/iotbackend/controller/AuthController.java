@@ -9,14 +9,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.com.iot.iotbackend.common.JwtTokenProvider;
-import org.com.iot.iotbackend.config.CorsConfig;
 import org.com.iot.iotbackend.dto.auth.request.EmailRequest;
 import org.com.iot.iotbackend.dto.auth.request.LoginRequest;
 import org.com.iot.iotbackend.dto.auth.request.SignupRequest;
 import org.com.iot.iotbackend.dto.auth.request.VerifyEmailRequest;
 import org.com.iot.iotbackend.dto.auth.response.LoginResponse;
-import org.com.iot.iotbackend.dto.common.MetaData;
 import org.com.iot.iotbackend.dto.common.CommonResponse;
+import org.com.iot.iotbackend.dto.common.MetaData;
 import org.com.iot.iotbackend.service.AuthService;
 import org.com.iot.iotbackend.service.MailService;
 import org.springframework.beans.factory.annotation.Value;
@@ -127,24 +126,34 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    // 로그아웃 참고 코드
+    // 로그아웃
+    @Operation(summary = "로그아웃 API", description = "로그아웃 요청을 진행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK: Succeeded"),
+            @ApiResponse(responseCode = "400", description = "Bad Request: Invalid input data.")
+    })
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response) {
+        // 환경에 따라 Secure 설정, 배포(https) : true, 로컬(http) : false
+        boolean isProd = APP_ENV.equals("docker");
+        // 환경에 따라 SameSite 설정 배포(https) : None, 로컬(http) : SameSite None 설정 시, Secure(true) 환경에서만 가능
+        String sameSiteConfig = APP_ENV.equals("docker") ? "None" : "Strict";
+
         // AccessToken 삭제
         ResponseCookie accessTokenCookie = ResponseCookie.from("Authorization", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(isProd)
                 .path("/")
-                .sameSite("None")
+                .sameSite(sameSiteConfig)
                 .maxAge(0)  // 쿠키 즉시 만료
                 .build();
 
         // RefreshToken 삭제
         ResponseCookie refreshTokenCookie = ResponseCookie.from("Refresh-Token", "")
                 .httpOnly(true)
-                .secure(false)
+                .secure(isProd)
                 .path("/")
-                .sameSite("None")
+                .sameSite(sameSiteConfig)
                 .maxAge(0)
                 .build();
 

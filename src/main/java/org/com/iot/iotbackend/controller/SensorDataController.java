@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.com.iot.iotbackend.dto.sensor.DHTSensor;
 import org.com.iot.iotbackend.dto.sensor.SensorDataDTO;
 import org.com.iot.iotbackend.dto.sensor.SoilMoistureSensor;
-import org.com.iot.iotbackend.dto.user.UserDTO;
+import org.com.iot.iotbackend.dto.user.request.UserDTO;
 import org.com.iot.iotbackend.service.SensorDataService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

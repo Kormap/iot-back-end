@@ -46,11 +46,13 @@ public class JwtTokenProvider {
         SecretKey secretKey = Keys.hmacShaKeyFor(JWT_SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
         try {
-            Jwts.parser()
+            Claims claims = Jwts.parser()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
+
+            Date expirationDate = claims.getExpiration();
             return true;
         } catch (ExpiredJwtException e) {
             System.out.println("JWT 토큰이 만료되었습니다.");

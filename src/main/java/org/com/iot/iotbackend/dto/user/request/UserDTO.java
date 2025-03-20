@@ -1,4 +1,4 @@
-package org.com.iot.iotbackend.dto.user;
+package org.com.iot.iotbackend.dto.user.request;
 
 import lombok.Getter;
 

@@ -13,18 +13,18 @@ import java.util.List;
 // TODO(참고용) : 스프링시큐리티 미적용으로 인한 FilterConfig 설정추가
 @Configuration
 public class FilterConfig {
-    private final CorsConfig corsConfig;
+    private final FrontCorsUrlConfig frontCorsUrlConfig;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public FilterConfig(CorsConfig corsConfig, JwtTokenProvider jwtTokenProvider) {
-        this.corsConfig = corsConfig;
+    public FilterConfig(FrontCorsUrlConfig frontCorsUrlConfig, JwtTokenProvider jwtTokenProvider) {
+        this.frontCorsUrlConfig = frontCorsUrlConfig;
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Bean(name = "customJwtAuthenticationFilter")
     public FilterRegistrationBean<Filter> jwtAuthenticationFilter() {
         FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(corsConfig, jwtTokenProvider);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(frontCorsUrlConfig, jwtTokenProvider);
 
         // /api/auth/*, sensor data 경로를 제외한 경로만 필터 적용
         List<String> excludedPaths =
