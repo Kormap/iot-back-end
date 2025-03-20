@@ -26,14 +26,15 @@ public class FilterConfig {
         FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(corsConfig, jwtTokenProvider);
 
-        // /api/auth/* 경로를 제외한 경로만 필터 적용
+        // /api/auth/*, sensor data 경로를 제외한 경로만 필터 적용
         List<String> excludedPaths =
                 Arrays.asList(
                         "/api/auth/users/verify-email/send",
                         "/api/auth/users/verify-email",
                         "/api/auth/signup",
                         "/api/auth/login",
-                        "/api/auth/logout"
+                        "/api/auth/logout",
+                        "/api/sensor/data"
                 );
         filter.setExcludedPaths(excludedPaths);
 
