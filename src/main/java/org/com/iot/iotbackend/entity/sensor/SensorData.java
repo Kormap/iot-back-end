@@ -12,7 +12,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "sensor_data")
+@Table(name = "sensor_data",
+        indexes = {
+                @Index(name = "idx_user_id", columnList = "user_id")  // user_id 컬럼에 인덱스 생성
+        })
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
