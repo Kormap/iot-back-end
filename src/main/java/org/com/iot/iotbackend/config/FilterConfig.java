@@ -1,6 +1,7 @@
 package org.com.iot.iotbackend.config;
 
 import jakarta.servlet.Filter;
+import org.springframework.beans.factory.annotation.Value;
 import org.com.iot.iotbackend.common.JwtAuthenticationFilter;
 import org.com.iot.iotbackend.common.JwtTokenProvider;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,16 +16,20 @@ import java.util.List;
 public class FilterConfig {
     private final FrontCorsUrlConfig frontCorsUrlConfig;
     private final JwtTokenProvider jwtTokenProvider;
+    private final String appEnv;
 
-    public FilterConfig(FrontCorsUrlConfig frontCorsUrlConfig, JwtTokenProvider jwtTokenProvider) {
+    public FilterConfig(FrontCorsUrlConfig frontCorsUrlConfig,
+                        JwtTokenProvider jwtTokenProvider,
+                        @Value("${app.env}") String appEnv) {
         this.frontCorsUrlConfig = frontCorsUrlConfig;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.appEnv = appEnv;
     }
 
     @Bean(name = "customJwtAuthenticationFilter")
     public FilterRegistrationBean<Filter> jwtAuthenticationFilter() {
         FilterRegistrationBean<Filter> registrationBean = new FilterRegistrationBean<>();
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(frontCorsUrlConfig, jwtTokenProvider);
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(frontCorsUrlConfig, jwtTokenProvider, appEnv);
 
         // /api/auth/*, sensor data 경로를 제외한 경로만 필터 적용
         List<String> excludedPaths =

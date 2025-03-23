@@ -120,7 +120,7 @@ public class SensorService {
         todayWarnings.forEach(sw -> {
             // 경고날짜가 오늘날짜인지 체크
             if (LocalDate.now().equals(sw.getWarningAt().toLocalDate())) {
-                // TODO 센서타입 관리방안(하드코딩이 아닌 ENUM 혹은 데이터베이스 구조)
+                // TODO(추후적용) 센서타입 관리방안(하드코딩이 아닌 ENUM 혹은 데이터베이스 구조)
                 if("DHT_TEMPERATURE".equals(sw.getSensorType()) || "DHT_HUMIDITY".equals(sw.getSensorType())) {
                     if ("MIN".equals(sw.getWarningType())) {
                         response.setDhtMinWarningCount(response.getDhtMinWarningCount() + 1);
