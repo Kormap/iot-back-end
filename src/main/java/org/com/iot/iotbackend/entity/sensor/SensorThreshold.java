@@ -1,6 +1,7 @@
 package org.com.iot.iotbackend.entity.sensor;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +16,7 @@ import java.util.List;
                 @UniqueConstraint(columnNames = {"sensor_id", "sensor_type"}) // 복합 유니크 키 설정
         }
 )
+@Getter
 public class SensorThreshold {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

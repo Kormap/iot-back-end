@@ -1,14 +1,15 @@
 package org.com.iot.iotbackend.entity.sensor;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sensor_warning")
+@Getter
 public class SensorWarning {
 
     @Id
@@ -34,9 +35,6 @@ public class SensorWarning {
     @CreationTimestamp
     private LocalDateTime createdAt; // 생성일시
 
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updatedAt; // 수정일시
 
     @ManyToOne
     @JoinColumn(name = "threshold_id", nullable = false) // FK: sensor_threshold.id

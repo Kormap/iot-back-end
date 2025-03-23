@@ -35,4 +35,8 @@ public class Sensor {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sensor", cascade = CascadeType.ALL)
     private List<SensorThreshold> thresholds; // 센서 임계값 목록
+
+    public String getSensorType() {
+        return this.sensorType;
+    }
 }
