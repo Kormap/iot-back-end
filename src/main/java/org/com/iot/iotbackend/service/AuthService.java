@@ -37,7 +37,6 @@ public class AuthService {
 
         checkPassword(request.getPassword(), user.getPassword());
 
-        // TODO 로그인 유효성 검사, JWT토큰 발급
         JwtTokens jwtTokens = jwtTokenProvider.generateAuthTokens(request);
 
         return new LoginResponse(
